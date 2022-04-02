@@ -1,14 +1,12 @@
 from flask import Flask, jsonify
-from services.tools import GetAllToolsServices
+from routes.tools import tools
 
 app = Flask(__name__)
-
+app.register_blueprint(tools, url_prefix='/api')
 
 @app.route('/')
 def index() :
-    service = GetAllToolsServices()
-    list_tools = service.get()
-    return jsonify( list_tools )
+    return jsonify({'message': 'holi'})
 
 
 
