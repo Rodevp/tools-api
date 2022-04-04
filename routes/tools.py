@@ -1,5 +1,5 @@
-from controllers.tools import GetAllToolsController
-from flask import Blueprint, jsonify
+from controllers.tools import GetAllToolsController, GetByTagToolsController
+from flask import Blueprint, jsonify, request
 
 tools = Blueprint('tools', __name__)
 
@@ -16,3 +16,21 @@ def get_all_tools() :
 
 
     return jsonify( controller.get() ), 200
+
+
+
+@tools.route('/tools/tag')
+def get_tools_by_tag() :
+
+    tag = request.args.get('tag')
+
+    try: 
+        controller = GetByTagToolsController()
+    except ValueError as err:
+        return jsonify({
+            'message': f'{err}'
+        })
+
+    tools = controller.get_tools(tag)
+
+    return jsonify(tools), 200

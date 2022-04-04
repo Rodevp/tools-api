@@ -2,7 +2,7 @@ from DTO.tools import ToolDTO
 from repositories.tools import ToolsRepository
 
 class GetAllToolsServices :
-
+    
     def __init__(self) :
         pass
 
@@ -33,3 +33,32 @@ class GetAllToolsServices :
             list_tools.append(tool)
 
         return list_tools
+
+
+class GetByTagToolsService :
+
+    def __init__(self) :
+        pass
+
+
+    def get(self, tag) :
+        
+        try :
+            get_all_service = GetAllToolsServices()
+        except Exception as err :
+            raise ValueError('Error de servicio')
+        
+
+        def filter_tool(tool) :
+
+            if  tag in tool['tags']:
+                return True
+            
+            return False
+
+        filter_tools_by_task = list( filter ( filter_tool, get_all_service.get() ) )
+
+        print(filter_tools_by_task)
+
+        return filter_tools_by_task
+
