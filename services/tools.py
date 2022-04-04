@@ -62,3 +62,35 @@ class GetByTagToolsService :
 
         return filter_tools_by_task
 
+
+class SaveToolService :
+
+    def __init__(self) :
+        pass
+
+
+    def save(self, tool) :
+        
+        try :
+            repository = ToolsRepository()
+        except Exception as err :
+            raise ValueError('error de servicio')
+
+        tool_response = repository.save(tool)
+
+        tool_dto = ToolDTO(
+            tool_response['_id'], tool_response['title'], tool_response['link'], 
+            tool_response['description'], tool_response['tags']
+        )
+
+        tool_parse = {
+            'title': tool_dto.title,
+            'link': tool_dto.link,
+            'description': tool_dto.description,
+            'tags': tool_dto.tags
+        }
+
+        if not tool_response == None :
+            return tool_parse
+
+        

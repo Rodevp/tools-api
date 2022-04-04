@@ -1,22 +1,37 @@
-from controllers.tools import GetAllToolsController, GetByTagToolsController
+from controllers.tools import GetAllToolsController, GetByTagToolsController, SaveToolController
 from flask import Blueprint, jsonify, request
 
 tools = Blueprint('tools', __name__)
 
-@tools.route('/tools', methods=['GET'])
+@tools.route('/tools', methods=['GET', 'POST'])
 def get_all_tools() :
 
-    try :
-        controller = GetAllToolsController()
-    except ValueError as err :
+    if request.method == 'GET' :
+        
+        try :
+            controller = GetAllToolsController()
+        except ValueError as err :
+            
+            return jsonify({
+                 'message': f'{err}'
+            }), 400
+            
+        return jsonify( controller.get() ), 200
+     
+    if request.method == 'POST' :
 
-        return jsonify({
-            'message': f'{err}'
-        }), 400
+        tool_data = request.get_json(force=True) 
+        
+        try :
+            controller = SaveToolController()
+        except ValueError as err :
+            return jsonify({
+                'message': f'{err}'
+            }), 400
 
+        tool = controller.save(tool_data)
 
-    return jsonify( controller.get() ), 200
-
+        return jsonify(tool), 201
 
 
 @tools.route('/tools/tag')
@@ -34,3 +49,5 @@ def get_tools_by_tag() :
     tools = controller.get_tools(tag)
 
     return jsonify(tools), 200
+
+    

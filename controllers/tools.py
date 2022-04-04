@@ -1,4 +1,4 @@
-from services.tools import GetAllToolsServices, GetByTagToolsService
+from services.tools import GetAllToolsServices, GetByTagToolsService, SaveToolService
 
 class GetAllToolsController :
 
@@ -36,3 +36,21 @@ class GetByTagToolsController :
         tools = service.get(tag)
 
         return tools
+
+
+class SaveToolController :
+
+    def __init__(self) :
+        pass
+
+
+    def save(self, tool) :
+
+        try :
+            service = SaveToolService()
+        except ValueError as err :
+            raise ValueError(err)
+
+        tool = service.save(tool)
+
+        return tool
