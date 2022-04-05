@@ -93,4 +93,21 @@ class SaveToolService :
         if not tool_response == None :
             return tool_parse
 
+
+class DeleteToolService :
+
+    def __init__(self) :
+        pass
+
+
+    def delete(self, id) :
+
+        try :
+            repository = ToolsRepository()
+        except  Exception as err  :
+            raise ValueError('error de servicio')
         
+
+        response = repository.delete(id)
+
+        return response

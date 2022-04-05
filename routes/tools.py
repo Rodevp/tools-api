@@ -1,4 +1,4 @@
-from controllers.tools import GetAllToolsController, GetByTagToolsController, SaveToolController
+from controllers.tools import DeleteToolController, GetAllToolsController, GetByTagToolsController, SaveToolController
 from flask import Blueprint, jsonify, request
 
 tools = Blueprint('tools', __name__)
@@ -17,6 +17,7 @@ def get_all_tools() :
             }), 400
             
         return jsonify( controller.get() ), 200
+
      
     if request.method == 'POST' :
 
@@ -50,4 +51,18 @@ def get_tools_by_tag() :
 
     return jsonify(tools), 200
 
-    
+
+
+@tools.route('/tools/<id>', methods=['DELETE'])
+def delete_tool(id) :
+
+    try :
+        controller = DeleteToolController()
+    except ValueError as err :
+        return jsonify({
+            'message': f'{err}'
+        })
+
+    response = controller.delete(id)
+
+    return jsonify({'message': 'destroy!'})

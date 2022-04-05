@@ -1,4 +1,4 @@
-from services.tools import GetAllToolsServices, GetByTagToolsService, SaveToolService
+from services.tools import GetAllToolsServices, GetByTagToolsService, SaveToolService, DeleteToolService
 
 class GetAllToolsController :
 
@@ -54,3 +54,21 @@ class SaveToolController :
         tool = service.save(tool)
 
         return tool
+
+
+class DeleteToolController :
+
+    def __init__(self) :
+        pass
+
+
+    def delete(self, id) :
+
+        try :
+            service = DeleteToolService()
+        except ValueError as err :
+            raise ValueError(err)
+
+        response = service.delete(id)
+
+        return response

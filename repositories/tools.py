@@ -22,3 +22,10 @@ class ToolsRepository :
         tool_id = self._db['tools'].insert_one(data).inserted_id
         tool = json.loads( json_util.dumps( self._db['tools'].find_one( {'_id': ObjectId(tool_id ) } )  )  )
         return tool
+
+
+    def delete(self, id) :
+
+        response = self._db['tools'].find_one_and_delete( { '_id': ObjectId(id) } )
+        print(response)
+        return {}
